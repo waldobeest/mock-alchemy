@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from flask_sqlalchemy import Pagination
 from functools import partial
 from itertools import chain
 from itertools import takewhile
@@ -450,11 +451,16 @@ class UnifiedAlchemyMagicMock(AlchemyMagicMock):
         "get": lambda x, idmap: get_item_attr(build_identity_map(x), idmap),
         "scalar": lambda x: get_scalar(x),
         "update": lambda x, *args, **kwargs: None,
+        "paginate": lambda x, page=1, per_page=20, error_out=True, max_per_page=100: Pagination(
+            query=AlchemyMagicMock(), page=page, per_page=per_page, total=len(x), items=x
+        )
     }
     unify: Dict[str, Optional[UnorderedCall]] = {
         "query": None,
         "add_columns": None,
         "join": None,
+        "outerjoin": None,
+        "joinedload": None,
         "options": None,
         "group_by": None,
         "filter": UnorderedCall,
