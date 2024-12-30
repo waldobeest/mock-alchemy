@@ -1,8 +1,8 @@
 """Testing the module for utils in mock-alchemy."""
 import pytest
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import MultipleResultsFound
 
+from mock_alchemy.sql_alchemy_imports import declarative_base
 from mock_alchemy.utils import build_identity_map
 from mock_alchemy.utils import copy_and_update
 from mock_alchemy.utils import get_item_attr
@@ -21,7 +21,7 @@ def test_match_type() -> None:
     """Tests matching string type."""
     assert type(match_type(b"hello", bytes)) is bytes
     assert type(match_type(b"hello", str)) is str
-    assert type(match_type(u"hello", bytes)) is bytes
+    assert type(match_type("hello", bytes)) is bytes
     assert type(match_type(b"hello", str)) is str
 
 
